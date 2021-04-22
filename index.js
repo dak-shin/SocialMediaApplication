@@ -2,20 +2,34 @@ const { ApolloServer , gql} = require('apollo-server');
 const mongoose = require('mongoose');
 const { MONGOURL } = require('./config');
 
-// const user = require('./models/users');
-// const post = require('./models/posts');
+const User = require('./models/users');
+const Post = require('./models/posts');
 
 //Basic Apollo server setup.
 
 const typeDefs = gql`
-    type Query{
-        sayHi : String!
+    type post{
+        id: ID!
+        body: String!
+        username: String!
+        timeAt: String!
     }
-`
+    type Query{
+        getPosts: [post]
+    }
+`;
 
 const resolvers = {
     Query : {
-        sayHi : () => "Hello there!!"
+        async getPosts(){
+            try{
+                const posts = await Post.find();
+                return posts;
+            }
+            catch(error){
+                throw new Error(error);
+            }
+        }
     }
 }
 
