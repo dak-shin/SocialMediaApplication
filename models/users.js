@@ -3,9 +3,10 @@ const { model, Schema } = require('mongoose');
 const userSchema = new Schema({
     username: String,
     password: String,
-    email:String
+    email:String,
+    timeAt:String
 },{
     timestamps:true
 });
 
-exports.module = model('User', userSchema);
+module.exports = model('User', userSchema);

@@ -2,36 +2,12 @@ const { ApolloServer , gql} = require('apollo-server');
 const mongoose = require('mongoose');
 const { MONGOURL } = require('./config');
 
-const User = require('./models/users');
-const Post = require('./models/posts');
+
+const typeDefs = require('./graphql/typedefs');
+const resolvers = require('./graphql/resolvers/index');
+
 
 //Basic Apollo server setup.
-
-const typeDefs = gql`
-    type post{
-        id: ID!
-        body: String!
-        username: String!
-        timeAt: String!
-    }
-    type Query{
-        getPosts: [post]
-    }
-`;
-
-const resolvers = {
-    Query : {
-        async getPosts(){
-            try{
-                const posts = await Post.find();
-                return posts;
-            }
-            catch(error){
-                throw new Error(error);
-            }
-        }
-    }
-}
 
 const server = new ApolloServer({typeDefs , resolvers});
 
