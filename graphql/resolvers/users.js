@@ -6,8 +6,47 @@ const {validateUserData, validateUserLogin} = require('../../util/validate');
 const {SECRET_KEY} = require('../../config');
 const User = require('../../models/users');
 
+const TokenGenerator = (user) => {
+    return (
+        jwt.sign({
+                id: user.id,
+                email:  user.email,
+                username:   user.username,
+            }, SECRET_KEY, {expiresIn : '1h'} )
+    )
+};
+
 module.exports = {
     Mutation : {
+        async login(_,{username, password}){
+
+            const {valid, errors } = validateUserLogin(username, password);
+
+            if(!valid){
+                throw new UserInputError('Invalid credentials',{errors});
+            }
+
+            const user = await User.findOne({username});
+            if(!user){
+                error.general = "User not found"
+                throw new UserInputError("User not found",{ errors })
+            }
+
+            const match = await bcrypt.compare(password, user.password);
+            if(!match){
+                errors.general = "Invalid username or password ";
+                throw new UserInputError("Invalid username or password",{errors});
+            }
+            // console.log(user)
+            const token = TokenGenerator(user);
+
+            return {
+                ...user._doc,
+                id: user._id,
+                token
+            };
+        },
+
         async register(_,
             {
                 registerInput:{username, password,confirmPassword, email}
@@ -45,11 +84,7 @@ module.exports = {
 
             const res = await newUser.save();
 
-            const token = jwt.sign({
-                id:res.id,
-                email:res.email,
-                username:res.username,
-            }, SECRET_KEY, {expiresIn : '1h'} );
+            const token = TokenGenerator(res);
 
             return {
                 ...res._doc,
