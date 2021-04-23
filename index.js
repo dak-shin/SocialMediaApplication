@@ -9,7 +9,7 @@ const resolvers = require('./graphql/resolvers/index');
 
 //Basic Apollo server setup.
 
-const server = new ApolloServer({typeDefs , resolvers});
+const server = new ApolloServer({typeDefs , resolvers, context: ({req}) =>({req}) });
 
 
 mongoose.connect(MONGOURL, {useNewUrlParser : true})
