@@ -56,6 +56,35 @@ const commmentResolver = {
                 throw new UserInputError("Post could not be found");
             }
 
+        },
+
+        likePost: async (_,{postId},context) => {
+            const {username} = checkAuthToken(context);
+
+            const post = await Post.findById(postId);
+
+            if(post){
+
+                if(post.likes.find(like => like.username === username))
+                {
+                    //Unlike the post 
+
+                    post.likes = post.likes.filter(like => like.username !== username);
+
+                }else{
+                    //Like the post
+                    post.likes.push({
+                        username,
+                        timeAt: new Date().toISOString()
+                    });
+                }
+
+                await post.save();
+                return post;
+            }
+            else{
+                throw new UserInputError("Post does not exist");
+            }
         }
     }
 };

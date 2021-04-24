@@ -52,5 +52,8 @@ module.exports = gql`
         likePost(postId: ID!): post!
     }
 
+    type subscription{
+        newPost: post!
+    }
 `;
 
