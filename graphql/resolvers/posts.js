@@ -38,6 +38,10 @@ module.exports = {
 
             const user = checkAuthToken(context);
 
+            if(body.trim() === ""){
+                throw new Error("Post cannot be empty");
+            }
+
             // console.log(user);
             const newPost = new Post({
                 body,
@@ -47,6 +51,10 @@ module.exports = {
             });
 
             const f_post = await newPost.save();
+
+            context.pubsub.publish('NEW_POST',{
+                newPost: f_post
+            })
 
             return f_post;
         },
@@ -74,6 +82,12 @@ module.exports = {
             catch(err){
                 throw new Error(err);
             }
+        }
+    },
+
+    Subscription : {
+        newPost: {
+            subscribe: (_,__,{pubsub}) => {pubsub.asyncIterator('NEW_POST')}
         }
     }
 }

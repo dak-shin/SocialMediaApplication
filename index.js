@@ -9,7 +9,7 @@ const resolvers = require('./graphql/resolvers/index');
 
 //Basic Apollo server setup.
 
-const pubsub = new PubSub()
+const pubsub = new PubSub();
 
 const server = new ApolloServer({typeDefs , resolvers, context: ({req}) =>({req,pubsub}) });
 
