@@ -31,7 +31,9 @@ module.exports = {
             }
         }
     },
+
     Mutation:{
+
         async createPost(_,{ body }, context){
 
             const user = checkAuthToken(context);
@@ -48,6 +50,7 @@ module.exports = {
 
             return f_post;
         },
+
         async deletePost(_,{ postId },context ){
             const user = checkAuthToken(context);
 
