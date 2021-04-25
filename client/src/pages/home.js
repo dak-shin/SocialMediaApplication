@@ -35,8 +35,8 @@ function Home() {
         const {getPosts: posts} = data;
         return (
         <Grid columns={3}>
-            <Grid.Row >
-                <h2 style={{ margin:10}}>Recent Posts</h2>
+            <Grid.Row className="page-title">
+                <h2>Recent Posts</h2>
             </Grid.Row>
             <Grid.Row>
                 {loading?(

@@ -5,6 +5,14 @@ import { Link } from 'react-router-dom';
 
 const PostCard = (props)=> {
 
+    const handleLike = () => {
+        console.log("Post liked")
+    };
+
+    const handleComment = () => {
+        console.log('Post Commented')
+    };
+
     const { id,
             body,
             timeAt,
@@ -34,7 +42,7 @@ const PostCard = (props)=> {
 
       </Card.Content>
       <Card.Content extra>
-        <Button as='div'  labelPosition='right'>
+        <Button as='div'  labelPosition='right' onClick={handleLike}>
             <Button color='black' basic>
                 <Icon name='heart' />
                 
@@ -43,7 +51,7 @@ const PostCard = (props)=> {
                 {likesCount}
             </Label>
         </Button>
-        <Button as='div'  labelPosition='right'>
+        <Button as='div'  labelPosition='right' onClick={handleComment}>
             <Button color='black' basic>
                 <Icon name='comment' />
                 
