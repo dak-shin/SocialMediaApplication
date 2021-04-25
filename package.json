@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "do":"node index",
+    "do": "node index",
     "start": "nodemon index"
   },
   "author": "",
@@ -15,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "graphql": "^15.5.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
     "mongoose": "^5.12.5"
   },
   "devDependencies": {
