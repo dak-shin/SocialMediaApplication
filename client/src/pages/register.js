@@ -2,19 +2,18 @@ import React,{useState} from 'react'
 import {Form, Button} from 'semantic-ui-react';
 import {gql, useMutation} from '@apollo/client';
 
+import {useForm} from '../util/hooks'
+
 function Register(props) {
     const [errors,setErrors] = useState({})
-    const [values, setValues] = useState({
-        username:'',
+
+
+    const {onChange, onSubmit, values} = useForm(resgisteruser, {
+        username:"",
         email:"",
         password:"",
         confirmPassword:""
     })
-
-    const onChange = (event) => {
-
-        setValues({...values,[event.target.name]:event.target.value});
-    };
 
     const [addUser, {loading}] = useMutation(REGISTER_USER_MUTATION,{
         update(proxy, result){
@@ -22,25 +21,15 @@ function Register(props) {
             props.history.push('/')
         },
         onError(err){
-            console.log(err.graphQLErrors[0].extensions.exception.errors);
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         }
         ,variables:values
     })
 
-    const onSubmit = (event) => {
-
-        event.preventDefault();
+    function resgisteruser(){
         addUser();
-        setValues({
-            username:'',
-            email:"",
-            password:"",
-            confirmPassword:""
-        });
+    }
 
-    };
-    
     return (
         <div className="form-container">
             <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ''}>
