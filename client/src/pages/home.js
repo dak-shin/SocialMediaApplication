@@ -28,7 +28,7 @@ const FETCH_POSTS_QUERY = gql`
 
 
 function Home() {
-    
+    // HERE
     const {loading, data} = useQuery(FETCH_POSTS_QUERY);
     if(data)
     {
