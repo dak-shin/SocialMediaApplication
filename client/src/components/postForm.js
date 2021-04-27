@@ -4,7 +4,7 @@ import {Button, Form } from 'semantic-ui-react';
 import {gql, useMutation} from '@apollo/client';
 import {useForm} from '../util/hooks';
 
-import {FETCH_POSTS_QUERY} from '../util/grapql';
+// import {FETCH_POSTS_QUERY} from '../util/grapql';
 
 function PostForm(){
 
@@ -12,10 +12,10 @@ function PostForm(){
         body:""
     })
 
-    const [createPost, {errors}] = useMutation(CREATE_POST_MUTATION, {
+    const [createPost, {error}] = useMutation(CREATE_POST_MUTATION, {
         variables:values,
         update(proxy,result){
-            // console.log(result);
+            console.log(result);
             // const data = proxy.readQuery({
             //     query : FETCH_POSTS_QUERY
             // })
@@ -23,6 +23,8 @@ function PostForm(){
             // proxy.writeQuery({ query : FETCH_POSTS_QUERY, data});
             window.location.reload(false);
             values.body ="";
+        },
+        onError(err){
         }
     });
 
@@ -31,20 +33,31 @@ function PostForm(){
     }
 
     return (
-        <Form onSubmit={onSubmit}>
-
-            <h2>Create a Post : </h2>
-
-            <Form.Field>
-                <Form.Input
-                    placeholder='Hardcore Parkour!!!'
-                    name='body'
-                    onChange={onChange}
-                    value={values.body}
-                />
-                <Button type="submit" color="black">Post</Button>
-            </Form.Field>
-        </Form>
+        <>
+            <Form onSubmit={onSubmit}>
+                <h2>Create a Post : </h2>
+                <Form.Field>
+                    <Form.Input
+                        placeholder='Hardcore Parkour!!!'
+                        name='body'
+                        onChange={onChange}
+                        error={error? true : false}
+                        value={values.body}
+                        />
+                    <Button type="submit" color="black">Post</Button>
+                </Form.Field>
+            </Form>
+            {
+                error  && (
+                    <div className="ui error message" style={{ marginTop: 10, marginBottom: 20}}>
+                        <ul className="list">
+                            <li>{error.graphQLErrors[0].message}</li>
+                        </ul>
+                    </div>
+                )
+            }
+            
+        </>
     );
 
 }
