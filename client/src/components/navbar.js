@@ -19,7 +19,7 @@ const Navbar = () => {
     };
 
     const navBar = user ? (<div>
-        <Menu pointing secondary size="massive">
+        <Menu pointing secondary size="massive" >
           <Menu.Item
             name={user.username}
             active

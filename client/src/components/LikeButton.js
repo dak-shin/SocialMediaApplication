@@ -3,7 +3,7 @@ import { Button, Label, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import {useMutation, gql} from '@apollo/client'; 
 
-function LikeButton({user,likes, likesCount, id}) {
+function LikeButton({user,post:{id, likes, likesCount}}) {
     
 
     const [liked, setLiked] = useState(false);
@@ -11,7 +11,7 @@ function LikeButton({user,likes, likesCount, id}) {
     useEffect(() => {
 
 
-        if(likes.find(like => like.username === user.username)){
+        if(user && likes.find(like => like.username === user.username)){
             setLiked(true);
         }else 
         setLiked(false);
@@ -33,7 +33,7 @@ function LikeButton({user,likes, likesCount, id}) {
             </Button>
         )
     ): (
-            <Button color='black'  as={Link} to='/login'>
+            <Button color='black' basic as={Link} to='/login'>
                 <Icon name='heart' />   
             </Button>
             )

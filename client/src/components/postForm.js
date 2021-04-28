@@ -37,7 +37,7 @@ function PostForm(){
             <Form onSubmit={onSubmit}>
                 <h2>Create a Post : </h2>
                 <Form.Field>
-                    <Form.Input
+                    <Form.TextArea
                         placeholder='Hardcore Parkour!!!'
                         name='body'
                         onChange={onChange}

@@ -3,8 +3,11 @@ import {Card, Icon, Label, Image, Button} from 'semantic-ui-react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
+import Linkify from 'react-linkify';
+
 import LikeButton from './LikeButton';
 import {AuthContext } from '../context/auth';
+import DeleteButton from './DeleteButton';
 
 const PostCard = (props)=> {
 
@@ -33,13 +36,14 @@ const PostCard = (props)=> {
         <Card.Header>{username}</Card.Header>
 
         <Card.Meta >{moment(timeAt).fromNow()}</Card.Meta>
-
+        <Linkify>
         <Card.Description>{body}</Card.Description>
+        </Linkify>
 
       </Card.Content>
       <Card.Content extra>
 
-          <LikeButton  user={user} likes={likes} likesCount={likesCount} id={id}/> 
+          <LikeButton  user={user} post={{id,likes,likesCount}}/> 
         
 
         <Button   labelPosition='right' as={Link} to={`/post/${id}`} >
@@ -55,9 +59,7 @@ const PostCard = (props)=> {
 
         {  
             user && user.username === username && (
-                <Button as="div" color="red" onClick={() => console.log('Delete the post.')}>
-                    <Icon name="trash" style={{margin: 0}}/>
-                </Button>
+                <DeleteButton postId={id} />
             )
         }
       </Card.Content>

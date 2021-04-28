@@ -2,6 +2,7 @@ import React,{useContext} from 'react'
 import {useQuery} from '@apollo/client';
 import {Grid, Transition} from 'semantic-ui-react';
 
+
 import {AuthContext } from '../context/auth';
 
 import PostForm from '../components/postForm';
@@ -18,7 +19,7 @@ function Home() {
     {
         const {getPosts: posts} = data;
         return (
-        <Grid columns={3}>
+        <Grid columns={3} stackable>
             <Grid.Row className="page-title">
                 <h2>Recent Posts</h2>
             </Grid.Row>

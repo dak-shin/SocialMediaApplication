@@ -15,7 +15,7 @@ import Navbar from './components/navbar';
 import Home from './pages/home';
 import Login from './pages/login';
 import Register from "./pages/register";
-
+import SinglePost from './pages/SinglePost';
 
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
           <Route exact path="/" component={Home}/>
           <AuthRoute exact path="/Login" component={Login}/>
           <AuthRoute exact path="/Register" component={Register}/>
+          <Route exact path="/post/:postId" component={SinglePost}/>
         </Container>
       </Router>
     </AuthProvider>
