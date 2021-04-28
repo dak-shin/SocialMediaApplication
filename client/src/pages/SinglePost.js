@@ -12,7 +12,7 @@ import DeleteButton from '../components/DeleteButton';
 function SinglePost(props) {
 
     const postId = props.match.params.postId;
-    console.log(postId);
+
 
         const {loading, data} = useQuery(FETCH_POST_QUERY,{
         variables:{
@@ -72,9 +72,21 @@ function SinglePost(props) {
                             </Button>
                             {user && user.username === username && <DeleteButton postId={postId} callBack={deletePostCB}/>}
                         </Card.Content>
-
-
                     </Card>
+
+                    {comments.map(comment => (
+                        <Card fluid key={comment.id}>
+                            <Card.Content>
+                                {
+                                    user && user.username === comment.username && 
+                                    <DeleteButton postId={postId} commentId={comment.id}/>
+                                }
+                                <Card.Header>{comment.username}</Card.Header>
+                                <Card.Meta>{moment(comment.timeAt).fromNow()}</Card.Meta>
+                                <Card.Description>{comment.body}</Card.Description>
+                            </Card.Content>
+                        </Card>
+                    ))}
 
                 </Grid.Column>
             </Grid.Row>

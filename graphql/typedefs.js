@@ -50,7 +50,7 @@ module.exports = gql`
         createPost(body: String!): post!
         deletePost(postId: ID!):String!
         createComment(postId: ID!, body: String!): post!
-        deleteComment(postId: ID!, commentId: String!): post!
+        deleteComment(postId: ID!, commentId: ID!): post!
         likePost(postId: ID!): post!
     }
 
