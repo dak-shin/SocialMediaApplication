@@ -1,4 +1,4 @@
-import React,{useContext, useState} from 'react'
+import React,{useContext, useState, useRef} from 'react'
 import {gql, useQuery, useMutation} from '@apollo/client';
 import { Dimmer, Loader, Image, Segment, Grid, Card, Button, Label, Icon, Form } from 'semantic-ui-react'
 import moment from 'moment';
@@ -11,7 +11,7 @@ import DeleteButton from '../components/DeleteButton';
 function SinglePost(props) {
 
     const postId = props.match.params.postId;
-
+    const commentInputRef = useRef(null);
 
         const {loading, data} = useQuery(FETCH_POST_QUERY,{
         variables:{
@@ -27,7 +27,8 @@ function SinglePost(props) {
 
     const [postComment] = useMutation(POST_COMMENT_MUTATION, {
         update(){
-            window.location.reload(false);
+            setComment("");
+            commentInputRef.current.blur();
         },variables:{
             postId,
             body: comment
@@ -57,7 +58,7 @@ function SinglePost(props) {
                     src='https://react.semantic-ui.com/images/avatar/large/molly.png'
                     />
                 </Grid.Column>
-                <Grid.Column width={10}>
+                <Grid.Column width={13}>
 
                     <Card fluid>
                         <Card.Content>
@@ -98,6 +99,7 @@ function SinglePost(props) {
                                         name="comment"
                                         value={comment}
                                         onChange={(event) => setComment(event.target.value)}
+                                        ref={commentInputRef}
                                         />
                                     </Form.Field>
                                     <Button type="submit"disabled={comment.trim() === ""} 
