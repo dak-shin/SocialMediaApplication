@@ -15,6 +15,7 @@ const pubsub = new PubSub();
 const server = new ApolloServer({typeDefs , resolvers, context: ({req}) =>({req,pubsub}) });
 
 
+
 mongoose.connect(MONGOURL, {useNewUrlParser : true, useUnifiedTopology: true })
 .then(() => {
     console.log('Connected to database successfully');
